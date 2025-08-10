@@ -1,4 +1,4 @@
-- name: Creer utilisateur et installer Docker #blablabl
+- name: Creer utilisateur et installer Docker #blablabla
   hosts: vbox
   become: yes
   remote_user: ansible
