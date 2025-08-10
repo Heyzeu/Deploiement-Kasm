@@ -36,7 +36,7 @@ Le workflow simule un processus de création d'images et de déploiement "plug-a
 
 1.  **Environnement de Travail** : PC Windows hôte (développement Packer avec VS Code), VM Debian dédiée pour Ansible (MobaXterm pour SSH), VirtualBox pour la virtualisation des VMs en mode pont.
 
-2.  **Processus de Création d'ISO** : Packer génère une image ISO Debian personnalisée en utilisant `debian.pkr.hcl` (paramètres VM, `boot_command`) et `preseed.cfg` (automatisation de l'installation Debian, y compris réseau, utilisateurs, partitionnement, et installation d'OpenSSH et Ansible).
+2.  **Processus de Création d'ISO** : Packer génère une image ISO Debian personnalisée en utilisant `debian.pkr.hcl` (paramètres VM, `boot_command`) et `preseed.cfg` (automatisation de l'installation Debian, y compris utilisateurs, partitionnement, et installation d'OpenSSH et Ansible).
 
 3.  **Déploiement de la VM Cible** : L'ISO générée est utilisée dans VirtualBox pour créer et démarrer une nouvelle VM Debian cible.
 
