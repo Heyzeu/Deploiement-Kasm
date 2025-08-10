@@ -25,8 +25,8 @@ source "virtualbox-iso" "debian" {
   pause_before_connecting = "2m"          # Ajout du tempo de pause avant la 1ère tentative SSH
 
 
-  disk_size         = 30000
-  memory            = 2048
+  disk_size         = 90000
+  memory            = 5096
   cpus              = 1
 
   headless          = false
