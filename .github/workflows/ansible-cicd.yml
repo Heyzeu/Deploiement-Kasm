@@ -1,14 +1,36 @@
-name: Ansible Deployment
+name: Ansible CI/CD - Deployment
 
 on:
   push:
     branches: ["main"]
     paths:
-      - 'ansible/**'
+      - 'ansible/**' # Se déclenche si un fichier dans le dossier 'ansible' est modifié
+  
+  workflow_dispatch: # Permet de lancer le déploiement manuellement
 
 jobs:
-  ansible-deploy:
-    runs-on: self-hosted
+  ci-checks:
+    name: Ansible CI Checks
+    runs-on: ansible-runner # Utilise le runner configuré sur ta VM Debian
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Ansible Tools
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-pip
+          pip3 install ansible ansible-lint
+
+      - name: Run Ansible Lint and Syntax Check
+        run: |
+          cd ansible
+          ansible-lint
+          ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --syntax-check
+
+  cd-deploy:
+    name: Ansible Deployment
+    needs: ci-checks # Ce job ne démarre que si le job 'ci-checks' a réussi
+    runs-on: ansible-runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
