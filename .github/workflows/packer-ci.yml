@@ -16,10 +16,9 @@ jobs:
       - name: Validate Packer templates
         run: |
           cd packer
-          packer validate .
+          packer init .
 
       - name: Build ISO
         run: |
           cd packer
-          packer init .
           packer build debian.pkr.hcl
