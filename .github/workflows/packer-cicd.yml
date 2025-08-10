@@ -1,0 +1,31 @@
+name: Packer ISO Build
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - 'packer/**'
+
+jobs:
+  packer-build:
+    runs-on: packer-runner
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Packer
+        uses: hashicorp/setup-packer@v2
+        with:
+          version: "latest" # Installe la dernière version de Packer sur le runner
+          
+      - name: Initialize and Validate Packer template
+        run: |
+          cd packer
+          packer init . 
+          packer validate debian.pkr.hcl 
+
+      - name: Build custom Debian ISO
+        run: |
+          cd packer
+          packer build debian.pkr.hcl 
