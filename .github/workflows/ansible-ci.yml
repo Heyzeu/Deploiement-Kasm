@@ -16,4 +16,4 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           cd ansible
-          ansible-playbook -i inventory.ini install_docker.yml --become
+          ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --become
