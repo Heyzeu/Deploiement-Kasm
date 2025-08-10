@@ -1,0 +1,6 @@
+kasm_version: "1.14.0"
+kasm_data: "/srv/appdata/kasm/data"
+kasm_profiles: "/srv/appdata/kasm/profiles"
+kasm_ports:
+  - "3000:3000"
+  - "443:443"

@@ -1,0 +1,56 @@
+- name: Creer utilisateur et installer Docker
+  hosts: vbox
+  become: yes
+  remote_user: ansible
+
+  vars:
+    docker_users:
+      - admin_docker
+
+  tasks:
+    - name: Creer l'utilisateur admin_docker
+      ansible.builtin.user:
+        name: admin_docker
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Autoriser la clef SSH pour admin_docker
+      ansible.posix.authorized_key:
+        user: admin_docker
+        state: present
+        key: "{{ lookup('file', 'files/id_rsa.pub') }}"
+
+  roles:
+    - geerlingguy.docker
+
+- name: Installer Kasm via docker-compose
+  hosts: vbox
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    
+    - name: Ensure docker-compose-plugin is installed
+      ansible.builtin.apt:
+        name: docker-compose-plugin
+        state: present
+        update_cache: yes
+    - name: Create required host directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ kasm_data }}"
+        - "{{ kasm_profiles }}"
+
+    - name: Deploy docker-compose.yml from template
+      ansible.builtin.template:
+        src: templates/docker-compose.yml.j2
+        dest: /srv/appdata/kasm/docker-compose.yml
+        mode: '0644'
+
+    - name: Deploy Kasm via docker-compose
+      community.docker.docker_compose_v2:
+        project_src: /srv/appdata/kasm/ 
+        state: present 
