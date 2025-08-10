@@ -16,4 +16,4 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           cd ansible
-          ansible-playbook -i inventory/hosts.ini playbooks/site.yml
+          ansible-playbook -i ~/ansible/inventory.ini install_docker.yml --ask-become-pass
