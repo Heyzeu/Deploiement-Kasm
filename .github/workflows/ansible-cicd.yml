@@ -20,7 +20,7 @@ jobs:
         run: |
           cd ansible
           # Active l'environnement virtuel pour trouver les commandes
-          source /home/actions-runner/actions-runner/ansible-venv/bin/activate
+          source ~/ansible-venv/bin/activate
           ansible-lint
           ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --syntax-check
 
