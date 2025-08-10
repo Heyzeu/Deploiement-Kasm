@@ -1,0 +1,24 @@
+name: Packer ISO Build
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - 'packer/**'
+
+jobs:
+  packer-build:
+    runs-on: self-hosted  # ← pour utiliser ton runner local
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Packer templates
+        run: |
+          cd packer
+          packer validate .
+
+      - name: Build ISO
+        run: |
+          cd packer
+          packer build .

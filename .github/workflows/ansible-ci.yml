@@ -1,0 +1,19 @@
+name: Ansible Deployment
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - 'ansible/**'
+
+jobs:
+  ansible-deploy:
+    runs-on: self-hosted  # Le runner sur ta VM Ansible
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Ansible Playbook
+        run: |
+          cd ansible
+          ansible-playbook -i inventory/hosts.ini playbooks/site.yml
