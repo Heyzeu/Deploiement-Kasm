@@ -19,6 +19,8 @@ jobs:
       - name: Run Ansible Lint and Syntax Check
         run: |
           cd ansible
+          # Active l'environnement virtuel pour trouver les commandes
+          source ~/ansible-venv/bin/activate
           ansible-lint
           ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --syntax-check
 
@@ -33,4 +35,6 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           cd ansible
+          # Active l'environnement virtuel pour trouver les commandes
+          source ~/ansible-venv/bin/activate
           ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --become
