@@ -8,7 +8,7 @@ on:
 
 jobs:
   ansible-deploy:
-    runs-on: self-hosted  # Le runner sur ta VM Ansible
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -16,4 +16,4 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           cd ansible
-          ansible-playbook -i ~/ansible/inventory.ini install_docker.yml --ask-become-pass
+          ansible-playbook -i inventory.ini install_docker.yml --become
