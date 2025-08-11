@@ -33,6 +33,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Add SSH host key to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 192.168.1.9 >> ~/.ssh/known_hosts
+
       - name: Install and Run Ansible Playbook
         run: |
           python3 -m venv ansible-env
