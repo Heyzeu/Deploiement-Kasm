@@ -26,6 +26,12 @@ jobs:
           packer validate debian.pkr.hcl 
 
       - name: Build custom Debian ISO
+        shell: pwsh
         run: |
           cd packer
-          packer build -on-error=abort debian.pkr.hcl || true 
+          try {
+            packer build -on-error=abort debian.pkr.hcl
+          } catch {
+            Write-Host "Packer build failed but ignored."
+          }
+          exit 0
