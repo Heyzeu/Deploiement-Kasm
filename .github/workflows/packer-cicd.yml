@@ -29,9 +29,5 @@ jobs:
         shell: pwsh
         run: |
           cd packer
-          try {
             packer build -on-error=abort debian.pkr.hcl
-          } catch {
-            Write-Host "Packer build failed but ignored."
-          }
-          exit 0
+
