@@ -1,6 +1,6 @@
-- name: Creer utilisateur et installer Docker #blablabla
+- name: Creer utilisateur et installer Docker 
   hosts: vbox
-  become: yes
+  become: true
   remote_user: ansible
 
   vars:
@@ -12,7 +12,7 @@
       ansible.builtin.user:
         name: admin_docker
         shell: /bin/bash
-        create_home: yes
+        create_home: true
 
     - name: Autoriser la clef SSH pour admin_docker
       ansible.posix.authorized_key:
@@ -34,7 +34,7 @@
       ansible.builtin.apt:
         name: docker-compose-plugin
         state: present
-        update_cache: yes
+        update_cache: true
     - name: Create required host directories
       ansible.builtin.file:
         path: "{{ item }}"
@@ -52,5 +52,5 @@
 
     - name: Deploy Kasm via docker-compose
       community.docker.docker_compose_v2:
-        project_src: /srv/appdata/kasm/ 
-        state: present 
+        project_src: /srv/appdata/kasm/
+        state: present
