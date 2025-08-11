@@ -28,4 +28,4 @@ jobs:
       - name: Build custom Debian ISO
         run: |
           cd packer
-          packer build debian.pkr.hcl 
+          packer build -on-error=abort debian.pkr.hcl 

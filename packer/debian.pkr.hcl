@@ -51,6 +51,6 @@ source "virtualbox-iso" "debian" {
 
 build {
   sources = ["source.virtualbox-iso.debian"]
-  on_error = "abort"
+  
 
 }
