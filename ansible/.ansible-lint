@@ -1,5 +1,3 @@
 # ansible/.ansible-lint
----
 exclude_paths:
   - ".ansible/roles/geerlingguy.docker/*"
----
