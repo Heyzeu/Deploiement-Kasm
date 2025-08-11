@@ -20,7 +20,7 @@ source "virtualbox-iso" "debian" {
 
   ssh_username      = "ansible"
   ssh_password      = "ansible" # C'est le mot de passe que votre preseed.cfg configure pour l'utilisateur 'ansible'
-  ssh_wait_timeout  = "9s"
+  ssh_wait_timeout  = "10s"
   ssh_timeout       = "10s"                # Maintenu pour la durée des tentatives individuelles
   pause_before_connecting = "2m"          # Ajout du tempo de pause avant la 1ère tentative SSH
 
