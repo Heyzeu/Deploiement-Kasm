@@ -7,8 +7,8 @@
     docker_users:
       - admin_docker
 
-  tasks:
-    - name: Installer gnupg et paquets nécessaires pour Docker
+  pre_tasks:
+    - name: Mettre à jour le cache apt et installer paquets nécessaires pour gestion clés GPG et Docker
       ansible.builtin.apt:
         name:
           - gnupg
@@ -20,6 +20,7 @@
         state: present
         update_cache: true
 
+  tasks:
     - name: Creer l'utilisateur admin_docker
       ansible.builtin.user:
         name: admin_docker
@@ -40,8 +41,8 @@
   become: true
   vars_files:
     - vars.yml
-  tasks:
 
+  tasks:
     - name: Ensure docker-compose-plugin is installed
       ansible.builtin.apt:
         name: docker-compose-plugin
