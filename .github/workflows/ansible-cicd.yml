@@ -4,37 +4,59 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'ansible/**' # Se déclenche si un fichier dans le dossier 'ansible' est modifié
-  
-  workflow_dispatch: # Permet de lancer le déploiement manuellement
+      - 'ansible/**'
+
+  workflow_dispatch:
 
 jobs:
   ci-checks:
     name: Ansible CI Checks
-    runs-on: ansible-runner # Utilise le runner configuré sur ta VM Debian
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run Ansible Lint and Syntax Check
-        run: |
-          cd ansible
-          # Active l'environnement virtuel pour trouver les commandes
-          source ~/ansible-venv/bin/activate
-          ansible-lint
-          ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --syntax-check
-
-  cd-deploy:
-    name: Ansible Deployment
-    needs: ci-checks # Ce job ne démarre que si le job 'ci-checks' a réussi
     runs-on: ansible-runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' # Utilise la dernière version de Python 3
+
+      - name: Créer et installer l'environnement virtuel
+        id: setup-env
+        run: |
+          python -m venv ansible-venv
+          source ansible-venv/bin/activate
+          pip install ansible ansible-lint
+
+      - name: Run Ansible Lint and Syntax Check
+        run: |
+          cd ansible
+          source ../ansible-venv/bin/activate
+          ansible-lint
+          ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --syntax-check
+
+  cd-deploy:
+    name: Ansible Deployment
+    needs: ci-checks
+    runs-on: ansible-runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Créer et installer l'environnement virtuel
+        id: setup-env-deploy
+        run: |
+          python -m venv ansible-venv
+          source ansible-venv/bin/activate
+          pip install ansible
+
       - name: Run Ansible Playbook
         run: |
           cd ansible
-          # Active l'environnement virtuel pour trouver les commandes
-          source ~/ansible-venv/bin/activate
+          source ../ansible-venv/bin/activate
           ansible-playbook -i inventory.ini Projet_Kasm/install_docker.yml --become
