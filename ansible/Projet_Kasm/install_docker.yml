@@ -8,6 +8,15 @@
       - admin_docker
 
   tasks:
+    - name: Installer gnupg et paquets nécessaires pour Docker
+      ansible.builtin.apt:
+        name:
+          - gnupg
+          - apt-transport-https
+          - ca-certificates
+        state: present
+        update_cache: yes
+
     - name: Creer l'utilisateur admin_docker
       ansible.builtin.user:
         name: admin_docker
@@ -35,6 +44,7 @@
         name: docker-compose-plugin
         state: present
         update_cache: true
+
     - name: Create required host directories
       ansible.builtin.file:
         path: "{{ item }}"
