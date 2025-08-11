@@ -1,4 +1,4 @@
-- name: Creer utilisateur et installer Docker 
+- name: Creer utilisateur et installer Docker
   hosts: vbox
   become: true
   remote_user: ansible
@@ -29,7 +29,7 @@
   vars_files:
     - vars.yml
   tasks:
-  
+
     - name: Ensure docker-compose-plugin is installed
       ansible.builtin.apt:
         name: docker-compose-plugin
